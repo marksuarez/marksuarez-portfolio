@@ -1,0 +1,167 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { experiences, skills, education } from '../data/projects';
+---
+
+<BaseLayout title="marksuarez.xyz - CV">
+  <Header currentPage="cv" />
+  
+  <main class="py-28 bg-bg-light">
+    <!-- Experience Section -->
+    <section id="experience" class="mb-16">
+      <div class="mx-auto max-w-[840px] px-5">
+        <div class="heading mb-8">
+          <h1 class="text-2xl md:text-4xl font-medium leading-none">
+            <a 
+              href="#experience" 
+              class="relative text-link no-underline hover:text-link-hover pl-10"
+            >
+              <span class="absolute left-0">#</span>
+              Experience
+            </a>
+          </h1>
+        </div>
+        <ul class="items list-none m-0 p-0">
+          {experiences.map((exp) => (
+            <li class="cv-item m-0 p-0 my-10 md:my-16">
+              <h1 class="font-normal text-lg md:text-2xl leading-tight">
+                {exp.url ? (
+                  <a 
+                    href={exp.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="relative text-link no-underline hover:text-link-hover pl-8 md:pl-10 block"
+                  >
+                    <svg 
+                      class="absolute left-0 top-1/2 -translate-y-1/2 w-5 h-5 md:w-6 md:h-6" 
+                      xmlns="http://www.w3.org/2000/svg" 
+                      viewBox="0 0 24 24" 
+                      fill="none" 
+                      stroke="currentColor" 
+                      stroke-width="2" 
+                      stroke-linecap="round" 
+                      stroke-linejoin="round"
+                    >
+                      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                      <polyline points="15 3 21 3 21 9"></polyline>
+                      <line x1="10" y1="14" x2="21" y2="3"></line>
+                    </svg>
+                    {exp.title === "Freelance Front-End Developer" ? exp.title : `${exp.company} / ${exp.title}`}
+                  </a>
+                ) : (
+                  <span>{exp.title === "Freelance Front-End Developer" ? exp.title : `${exp.company} / ${exp.title}`}</span>
+                )}
+              </h1>
+              <h2 class="font-[StyreneB] font-normal text-base md:text-xl leading-6 md:leading-8 mt-1">
+                {exp.period}, {exp.location}
+              </h2>
+              <p class="font-[StyreneB] text-base md:text-xl leading-6 md:leading-8 mt-2">
+                {exp.description}
+              </p>
+              {exp.responsibilities && (
+                <ul class="font-[StyreneB] text-base md:text-lg leading-6 md:leading-7 list-none m-0 p-0 mt-2">
+                  {exp.responsibilities.map((item) => (
+                    <li class="p-0 m-0 before:content-['+'] before:mr-2.5">
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+    
+    <!-- Skills Section -->
+    <section id="skills" class="mb-16">
+      <div class="mx-auto max-w-[840px] px-5">
+        <div class="heading mb-8">
+          <h1 class="text-2xl md:text-4xl font-medium leading-none">
+            <a 
+              href="#skills" 
+              class="relative text-link no-underline hover:text-link-hover pl-10"
+            >
+              <span class="absolute left-0">#</span>
+              Skills
+            </a>
+          </h1>
+        </div>
+        <ul class="items list-none m-0 p-0">
+          {skills.map((skill) => (
+            <li class="cv-item m-0 p-0 my-10 md:my-16">
+              <h1 class="font-normal text-lg md:text-2xl leading-tight">
+                {skill.title}
+              </h1>
+              <ul class="font-[StyreneB] text-base md:text-lg leading-6 md:leading-7 list-none m-0 p-0 mt-2">
+                {skill.items.map((item) => (
+                  <li class="p-0 m-0 before:content-['+'] before:mr-2.5">
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+    
+    <!-- Education Section -->
+    <section id="education">
+      <div class="mx-auto max-w-[840px] px-5">
+        <div class="heading mb-8">
+          <h1 class="text-2xl md:text-4xl font-medium leading-none">
+            <a 
+              href="#education" 
+              class="relative text-link no-underline hover:text-link-hover pl-10"
+            >
+              <span class="absolute left-0">#</span>
+              Education
+            </a>
+          </h1>
+        </div>
+        <ul class="items list-none m-0 p-0">
+          {education.map((edu) => (
+            <li class="cv-item m-0 p-0 my-10 md:my-16">
+              <h1 class="font-normal text-lg md:text-2xl leading-tight">
+                {edu.url ? (
+                  <a 
+                    href={edu.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="relative text-link no-underline hover:text-link-hover pl-8 md:pl-10 block"
+                  >
+                    <svg 
+                      class="absolute left-0 top-1/2 -translate-y-1/2 w-5 h-5 md:w-6 md:h-6" 
+                      xmlns="http://www.w3.org/2000/svg" 
+                      viewBox="0 0 24 24" 
+                      fill="none" 
+                      stroke="currentColor" 
+                      stroke-width="2" 
+                      stroke-linecap="round" 
+                      stroke-linejoin="round"
+                    >
+                      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                      <polyline points="15 3 21 3 21 9"></polyline>
+                      <line x1="10" y1="14" x2="21" y2="3"></line>
+                    </svg>
+                    {edu.institution}
+                  </a>
+                ) : (
+                  <span>{edu.institution}</span>
+                )}
+              </h1>
+              <h2 class="font-[StyreneB] font-normal text-base md:text-xl leading-6 md:leading-8 mt-1">
+                {edu.year} {edu.degree}
+              </h2>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  </main>
+  
+  <Footer />
+</BaseLayout>

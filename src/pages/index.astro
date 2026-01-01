@@ -1,0 +1,207 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import ProjectItem from '../components/ProjectItem.astro';
+import { projects } from '../data/projects';
+
+// Get all unique tags for filter controls
+const allTags = [...new Set(projects.flatMap(p => p.tags))].sort();
+
+// Helper to convert tag to filter class
+const toFilterClass = (tag: string) => 
+  tag.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+---
+
+<BaseLayout title="marksuarez.xyz">
+  <Header currentPage="projects" />
+  
+  <main class="py-28 bg-bg-light">
+    <!-- Project List -->
+    <section class="projects">
+      <div class="mx-auto max-w-[840px] px-5">
+        <!-- Filter Controls with Alpine Collapse -->
+        <div 
+          x-data="{ open: false, activeFilter: 'All Projects' }" 
+          class="mb-8"
+        >
+          <!-- Toggle Button styled like a tag -->
+          <button 
+            type="button"
+            @click="open = !open"
+            class="inline-flex items-center gap-2 bg-link text-white text-xs md:text-sm py-1.5 px-3 rounded-sm cursor-pointer transition-colors hover:bg-link-hover mb-4"
+          >
+            <span x-text="activeFilter"></span>
+            <svg 
+              class="w-3 h-3 transition-transform duration-200"
+              :class="{ 'rotate-180': open }"
+              xmlns="http://www.w3.org/2000/svg" 
+              viewBox="0 0 24 24" 
+              fill="none" 
+              stroke="currentColor" 
+              stroke-width="2" 
+              stroke-linecap="round" 
+              stroke-linejoin="round"
+            >
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+          
+          <!-- Collapsible Filter Panel -->
+          <div 
+            x-show="open" 
+            x-collapse
+            x-cloak
+          >
+            <div class="filters flex flex-wrap gap-2 pb-4">
+              <button 
+                type="button"
+                class="filter-btn active bg-link text-white text-xs md:text-sm py-1.5 px-3 rounded-sm cursor-pointer transition-colors hover:bg-link-hover"
+                data-filter="all"
+                @click="activeFilter = 'All Projects'"
+              >
+                All
+              </button>
+              {allTags.map((tag) => (
+                <button 
+                  type="button"
+                  class="filter-btn bg-white text-primary text-xs md:text-sm py-1.5 px-3 rounded-sm cursor-pointer transition-colors hover:bg-link hover:text-white"
+                  data-filter={`.${toFilterClass(tag)}`}
+                  x-on:click={`activeFilter = '${tag}'`}
+                >
+                  {tag}
+                </button>
+              ))}
+            </div>
+          </div>
+          
+          <!-- Clear Filter Button (visible when filter active) -->
+          <button 
+            type="button" 
+            id="clear-filter" 
+            class="text-xs text-link-hover hover:underline hidden mb-4"
+            @click="activeFilter = 'All Projects'"
+          >
+            ✕ Clear filter
+          </button>
+        </div>
+        
+        <!-- Project List Container -->
+        <ul id="project-list" class="items list-none m-0 p-0 block w-auto">
+          {projects.map((project) => (
+            <ProjectItem 
+              title={project.title}
+              url={project.url}
+              tags={project.tags}
+            />
+          ))}
+        </ul>
+      </div>
+    </section>
+  </main>
+  
+  <Footer />
+</BaseLayout>
+
+<script>
+  import mixitup from 'mixitup';
+  
+  // Initialize MixItUp
+  const container = document.getElementById('project-list');
+  const activeLabel = document.getElementById('active-filter-label');
+  const clearBtn = document.getElementById('clear-filter');
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  
+  if (container) {
+    const mixer = mixitup(container, {
+      selectors: {
+        target: '.mix'
+      },
+      animation: {
+        duration: 300,
+        easing: 'ease-out'
+      }
+    });
+    
+    // Handle filter button clicks
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const filter = btn.getAttribute('data-filter');
+        
+        // Update active state
+        filterBtns.forEach(b => {
+          b.classList.remove('active', 'bg-link', 'text-white');
+          b.classList.add('bg-white', 'text-primary');
+        });
+        btn.classList.add('active', 'bg-link', 'text-white');
+        btn.classList.remove('bg-white', 'text-primary');
+        
+        // Update label
+        if (activeLabel) {
+          activeLabel.textContent = filter === 'all' ? 'All Projects' : btn.textContent || '';
+        }
+        
+        // Show/hide clear button
+        if (clearBtn) {
+          clearBtn.classList.toggle('hidden', filter === 'all');
+        }
+        
+        // Apply filter
+        mixer.filter(filter === 'all' ? 'all' : filter);
+      });
+    });
+    
+    // Handle tag clicks within project items
+    document.querySelectorAll('.tag-filter').forEach(tag => {
+      tag.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const filter = tag.getAttribute('data-filter');
+        
+        if (filter) {
+          // Find and click the matching filter button
+          const matchingBtn = document.querySelector(`.filter-btn[data-filter="${filter}"]`);
+          if (matchingBtn) {
+            (matchingBtn as HTMLElement).click();
+          } else {
+            // Apply filter directly if no button exists
+            mixer.filter(filter);
+            if (activeLabel) {
+              activeLabel.textContent = tag.textContent || '';
+            }
+            if (clearBtn) {
+              clearBtn.classList.remove('hidden');
+            }
+          }
+        }
+      });
+    });
+    
+    // Handle clear button
+    if (clearBtn) {
+      clearBtn.addEventListener('click', () => {
+        const allBtn = document.querySelector('.filter-btn[data-filter="all"]');
+        if (allBtn) {
+          (allBtn as HTMLElement).click();
+        }
+      });
+    }
+  }
+</script>
+
+<style>
+  /* Hide elements with x-cloak until Alpine initializes */
+  [x-cloak] {
+    display: none !important;
+  }
+  
+  .filter-btn.active {
+    background-color: var(--color-link);
+    color: white;
+  }
+  
+  /* MixItUp transitions */
+  .mix {
+    display: flex;
+  }
+</style>

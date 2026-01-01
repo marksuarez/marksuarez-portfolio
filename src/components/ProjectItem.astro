@@ -1,0 +1,55 @@
+---
+interface Props {
+  title: string;
+  url: string;
+  tags: string[];
+}
+
+const { title, url, tags } = Astro.props;
+
+// Convert tags to CSS class names for MixItUp filtering
+const tagClasses = tags.map(tag => 
+  tag.toLowerCase()
+    .replace(/\s+/g, '-')
+    .replace(/[^a-z0-9-]/g, '')
+).join(' ');
+---
+
+<li class={`project-item mix flex flex-wrap items-center p-0 m-0 text-lg leading-6 font-medium md:text-4xl md:leading-[54px] ${tagClasses}`} data-tags={tags.join(',')}>
+  <a 
+    href={url}
+    target="_blank"
+    rel="noopener noreferrer"
+    class="relative block no-underline text-link hover:text-link-hover pl-8 md:pl-10"
+  >
+    <!-- External link icon -->
+    <svg 
+      class="absolute left-0 top-1/2 -translate-y-1/2 w-5 h-5 md:w-6 md:h-6" 
+      xmlns="http://www.w3.org/2000/svg" 
+      viewBox="0 0 24 24" 
+      fill="none" 
+      stroke="currentColor" 
+      stroke-width="2" 
+      stroke-linecap="round" 
+      stroke-linejoin="round"
+    >
+      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+      <polyline points="15 3 21 3 21 9"></polyline>
+      <line x1="10" y1="14" x2="21" y2="3"></line>
+    </svg>
+    {title}
+  </a>
+  <ul class="tags-list flex flex-col flex-wrap justify-start list-none m-0 p-0 h-4 md:h-8 w-auto ml-5">
+    {tags.map((tag) => {
+      const filterClass = tag.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+      return (
+        <li 
+          class="tag-filter block bg-white text-[8px] leading-[9px] py-[3px] px-[6px] m-[1px] rounded-sm cursor-pointer hover:bg-link hover:text-white transition-colors"
+          data-filter={`.${filterClass}`}
+        >
+          {tag}
+        </li>
+      );
+    })}
+  </ul>
+</li>

@@ -1,0 +1,145 @@
+@import "tailwindcss";
+
+/* Custom Fonts */
+@font-face {
+  font-family: 'StyreneA';
+  src: url('/fonts/styrenea-regular-reduced.woff') format('woff');
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'StyreneA';
+  src: url('/fonts/styrenea-regularitalic-reduced.woff') format('woff');
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'StyreneA';
+  src: url('/fonts/styrenea-medium-reduced.woff') format('woff');
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'StyreneA';
+  src: url('/fonts/styrenea-mediumitalic-reduced.woff') format('woff');
+  font-style: italic;
+  font-weight: 500;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'StyreneB';
+  src: url('/fonts/styreneb-regular-cy-web.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'StyreneB';
+  src: url('/fonts/styreneb-regularitalic-cy-web.woff2') format('woff2');
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'StyreneB';
+  src: url('/fonts/styreneb-medium-cy-web.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'StyreneB';
+  src: url('/fonts/styreneb-mediumitalic-cy-web.woff2') format('woff2');
+  font-style: italic;
+  font-weight: 500;
+  font-display: swap;
+}
+
+/* Tailwind Theme */
+@theme {
+  --font-styrene-a: 'StyreneA', sans-serif;
+  --font-styrene-b: 'StyreneB', sans-serif;
+  
+  --color-primary: #394041;
+  --color-link: #0054FF;
+  --color-link-hover: #FF5D5D;
+  --color-bg-light: #F1F3F2;
+  --color-white: #FFFFFF;
+}
+
+/* Base Styles */
+html {
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  font-family: var(--font-styrene-a);
+  color: var(--color-primary);
+  overflow-x: hidden;
+}
+
+/* ScrollSmoother wrapper - only fixed when ScrollSmoother is active */
+#smooth-wrapper {
+  width: 100%;
+}
+
+#smooth-wrapper.smoother-active {
+  overflow: hidden;
+  position: fixed;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+#smooth-content {
+  overflow: visible;
+  width: 100%;
+}
+
+/* Link Transitions */
+a {
+  transition: color 0.1s ease-in;
+}
+
+/* External Link Icon */
+.external-link::before {
+  content: '';
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  margin-right: 8px;
+  margin-left: -32px;
+  position: absolute;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%230054FF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6'%3E%3C/path%3E%3Cpolyline points='15 3 21 3 21 9'%3E%3C/polyline%3E%3Cline x1='10' y1='14' x2='21' y2='3'%3E%3C/line%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+/* Hash Link Icon */
+.hash-link::before {
+  content: '#';
+  position: absolute;
+  margin-left: -40px;
+}
+
+/* Plus List Marker */
+.plus-marker::before {
+  content: '+';
+  position: relative;
+  margin-right: 10px;
+}

@@ -1,0 +1,50 @@
+---
+interface Props {
+  currentPage?: string;
+}
+
+const { currentPage = 'projects' } = Astro.props;
+---
+
+<header class="bg-white py-10 text-sm leading-5 font-medium md:text-2xl md:leading-[30px]">
+  <div class="mx-auto max-w-[840px] px-5">
+    <div class="flex justify-between items-start">
+      <!-- Left side - Logo/Name -->
+      <div class="header-left">
+        <a href="/" class="text-primary no-underline hover:text-link-hover">
+          <div>Mark Suarez</div>
+          <div>Front-End-Developer</div>
+          <div>Product Designer</div>
+        </a>
+      </div>
+      
+      <!-- Right side - Navigation -->
+      <nav class="header-right">
+        <ul class="list-none m-0 p-0">
+          <li class="block m-0 p-0">
+            <a 
+              href="/" 
+              class:list={[
+                "no-underline",
+                currentPage === 'projects' ? "text-link" : "text-primary hover:text-link-hover"
+              ]}
+            >
+              Projects
+            </a>
+          </li>
+          <li class="block m-0 p-0">
+            <a 
+              href="/cv" 
+              class:list={[
+                "no-underline",
+                currentPage === 'cv' ? "text-link" : "text-primary hover:text-link-hover"
+              ]}
+            >
+              CV
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</header>
