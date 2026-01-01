@@ -16,6 +16,10 @@ export default defineConfig({
   integrations: [react(), alpinejs()],
 
   vite: {
-    plugins: [tailwindcss()]
+    plugins: [tailwindcss()],
+    // Mark Notion SDK as external for SSR bundling
+    ssr: {
+      noExternal: ['@notionhq/client']
+    }
   }
 });

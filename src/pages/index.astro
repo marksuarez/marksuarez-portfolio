@@ -3,10 +3,13 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import ProjectItem from '../components/ProjectItem.astro';
-import { projects } from '../data/projects';
+import { fetchProjects } from '../lib/notion';
 
-// Get all unique tags for filter controls
-const allTags = [...new Set(projects.flatMap(p => p.tags))].sort();
+// Fetch projects from Notion (at build time)
+const projects = await fetchProjects();
+
+// Get all unique technologies for filter controls
+const allTags = [...new Set(projects.flatMap(p => p.technologies))].sort();
 
 // Helper to convert tag to filter class
 const toFilterClass = (tag: string) => 
@@ -90,9 +93,9 @@ const toFilterClass = (tag: string) =>
         <ul id="project-list" class="items list-none m-0 p-0 block w-auto">
           {projects.map((project) => (
             <ProjectItem 
-              title={project.title}
+              title={project.name}
               url={project.url}
-              tags={project.tags}
+              tags={project.technologies}
             />
           ))}
         </ul>

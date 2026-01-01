@@ -15,7 +15,7 @@ Rebuild the existing portfolio site as a 1:1 static site using modern technologi
   - SplitText
 - **MixItUp** - Filtering/sorting
 
-## Status: ✅ Phase 1 Complete
+## Status: ✅ Phase 2 Complete
 
 ### Completed Features
 - [x] Project structure set up
@@ -29,11 +29,33 @@ Rebuild the existing portfolio site as a 1:1 static site using modern technologi
 - [x] Alpine.js collapsible filter panel
 - [x] Clickable tag filters
 - [x] Responsive design matching original
+- [x] GitHub repo setup with CI/CD
+- [x] GitHub Pages deployment
+- [x] **Notion API integration** - Projects fetched from Notion database at build time
+
+### Notion Integration
+- **Database ID**: Stored in `NOTION_DATABASE_ID` env variable
+- **API Token**: Stored in `NOTION_TOKEN` env variable  
+- **Fetch Method**: Native `fetch()` API to Notion REST API v2022-06-28
+- **Build Time**: Projects are fetched during `astro build`
+- **GitHub Secrets**: Add `NOTION_TOKEN` and `NOTION_DATABASE_ID` as repository secrets
+
+### Database Schema
+| Property | Type | Description |
+|----------|------|-------------|
+| Name | Title | Project name |
+| Description | Rich Text | Project description |
+| Agency | Rich Text | Agency/company |
+| Client | Rich Text | Client name |
+| Roles | Multi-select | Roles (Development, Design, etc.) |
+| Technologies | Multi-select | Tech stack (WordPress, GSAP, etc.) |
+| Year | Number | Project year |
+| Link | URL | Project URL |
 
 ### Next Steps
-- [ ] GitHub repo setup with CI/CD
-- [ ] GitHub Pages deployment
-- [ ] Notion API integration for dynamic content
+- [ ] Add project detail pages
+- [ ] Add thumbnail images to Notion
+- [ ] Consider ISR or on-demand revalidation
 
 ## Deployment
 
